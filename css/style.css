@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
+@font-face {
+  font-family: myFont;
+  src: url("../fonts/DIN\ 30640\ Std\ Neuzeit\ Grotesk\ Light.otf");
+}
+
 :root {
   --primary-color: rgb(90, 30, 255);
   --font-color: white;
@@ -17,7 +22,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Roboto", sans-serif;
+  font-family: myFont;
 }
 
 .fas {
@@ -46,6 +51,8 @@ video {
 .heading-container {
   opacity: 0;
   transition: all 0.5s ease-out 2s;
+  position: absolute;
+  bottom: 90px;
 }
 #video-heading {
   color: var(--font-color);
