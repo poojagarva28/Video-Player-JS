@@ -8,12 +8,19 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="player">
-      <video class="video" src="anime.mp4"></video>
+      <video
+        class="video"
+        src="src/anime.mp4"
+        title="Kimetsu no Yaiba | Demon Slayer"
+      ></video>
       <div class="show-controls">
+        <div class="heading-container">
+          <h1 id="video-heading"></h1>
+        </div>
         <div class="controls-container">
           <!-- Progress Bar -->
           <div class="progress-range" title="Seek">
@@ -54,7 +61,7 @@
               </div>
               <!-- Time -->
               <div class="time">
-                <span class="time-elapsed">00:00 / </span>
+                <span class="time-elapsed">00:00</span>
                 <span class="time-duration">00:00</span>
               </div>
               <!-- Fullscreen -->
@@ -67,6 +74,6 @@
       </div>
     </div>
     <!-- Script -->
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 const player = document.querySelector(".player");
 const video = document.querySelector(".video");
+const videoHeading = document.querySelector("#video-heading");
 const progressRange = document.querySelector(".progress-range");
 const progressBar = document.querySelector(".progress-bar");
 const playBtn = document.getElementById("play-btn");
@@ -13,25 +14,31 @@ const currentTime = document.querySelector(".time-elapsed");
 const duration = document.querySelector(".time-duration");
 const fullscreenBtn = document.querySelector(".fullscreen");
 
+// setting video heading
+videoHeading.innerText = video.title;
+
+// full screen on double click
+video.addEventListener("dblclick", toggleFullscreen);
+
 // play and pause
 let isPlaying = false;
 function playVideo() {
   video.play();
   progressUpdate();
-  pauseBtn();
+  isPlaying = true;
+  playBtn.classList.replace("fa-play", "fa-pause");
+  playBtn.title = "Pause";
 }
 
 function pauseVideo() {
   video.pause();
+  videoEnded();
+}
+
+function videoEnded() {
   isPlaying = false;
   playBtn.classList.replace("fa-pause", "fa-play");
   playBtn.title = "Play";
-}
-
-function pauseBtn() {
-  isPlaying = true;
-  playBtn.classList.replace("fa-play", "fa-pause");
-  playBtn.title = "Pause";
 }
 
 playBtn.addEventListener("click", function () {
@@ -41,7 +48,6 @@ playBtn.addEventListener("click", function () {
 video.addEventListener("click", function () {
   isPlaying ? pauseVideo() : playVideo();
 });
-// video.addEventListener("dblclick", toggleFullscreen);
 
 // speed change
 speed.addEventListener("change", function (e) {
@@ -84,6 +90,10 @@ fullscreenBtn.addEventListener("click", toggleFullscreen);
 
 // setting time 00:00 / 00:00
 
+video.addEventListener("loadedmetadata", function () {
+  duration.textContent = `/ ${convertTime(video.duration)}`;
+});
+
 function convertTime(time) {
   let minutes = Math.floor(time / 60);
   let seconds = Math.floor(time % 60);
@@ -93,15 +103,13 @@ function convertTime(time) {
 
 function changeTime() {
   currentTime.textContent = convertTime(video.currentTime);
-  duration.textContent = `/ ${convertTime(video.duration)}`;
+  //   duration.textContent = `/ ${convertTime(video.duration)}`;
   updateProgressbar();
 }
 
 video.addEventListener("timeupdate", changeTime);
 
-if (video.ended) {
-  pauseBtn();
-}
+video.addEventListener("ended", videoEnded);
 
 function updateProgressbar() {
   progressBar.style.width = `${(video.currentTime / video.duration) * 100}%`;
@@ -124,7 +132,6 @@ function volumeControl(e) {
 volumeRange.addEventListener("click", volumeControl);
 
 // mute / unmute
-
 function toggleSound() {
   video.muted ? unmuteVideo() : muteVideo();
 }
@@ -166,3 +173,15 @@ function bakwardProgress() {
 }
 forwardBtn.addEventListener("click", forwardProgress);
 backwardBtn.addEventListener("click", bakwardProgress);
+
+document.body.onkeyup = function (e) {
+  if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
+    isPlaying ? pauseVideo() : playVideo();
+  }
+  if (e.keyCode == 37) {
+    bakwardProgress();
+  }
+  if (e.keyCode == 39) {
+    forwardProgress();
+  }
+};
